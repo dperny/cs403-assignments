@@ -2,6 +2,7 @@
 ; CS 403
 ; Assignment 2
 ; Drew Erny
+;
 
 ; author function required
 (define (author)
@@ -45,11 +46,11 @@
 (define (run2)
   ; all these should be the same
   (println "the next five lines should be the same:")
-  (println 1 2 3)
-  ((pval println) 1 2 3)
-  ((pval println 1) 2 3)
-  ((pval println 1 2) 3)
-  ((pval println 1 2 3))
+  (inspect(+ 1 2 3))
+  (exprTest ((pval +) 1 2 3) 6)
+  (exprTest ((pval + 1) 2 3) 6)
+  (exprTest ((pval + 1 2) 3) 6)
+  (exprTest ((pval + 1 2 3)) 6)
   )
 
 (run2)
