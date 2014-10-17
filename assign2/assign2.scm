@@ -81,8 +81,55 @@
   (exprTest ((pval + 1 2 3)) 6)
   )
 
+;
+; Task 3
+;
+
+;
+; Task 5
+;
+
+(define (cadd a b)
+  (lambda (f)
+    (lambda (x)
+      ; use the result of b as the base for a
+      ((a f)((b f) x))
+      )
+    )
+  )
+
+(define (cmult a b)
+  (lambda (f)
+    (lambda (x)
+      ((a (b f)) x)
+      )
+    )
+  )
+
+(define (cpow a b)
+  (b a) ; that is way to easy to take me as long as it did to figure out
+  )
+
+(define (run5)
+
+  (define (church2dec num) 
+    ((num (lambda (x) (+ x 1))) 0)
+    )
+
+  (define one (lambda (f) (lambda (x) (f x))))
+  (define two (cadd one one))
+  (define three (cadd two one))
+  
+  (exprTest (church2dec (cmult three two)) 6)
+
+  (exprTest (church2dec (cpow three two)) 9)
+  )
+
+
 (run1)
 (run2)
+
+(run5)
 
 ; Last statement!
 (println "assignment 2 loaded")

@@ -1,6 +1,6 @@
 (include "assign2.scm")
 
-(println "Test Script: VERSION 1\n")
+(println "Test Script: VERSION 2\n")
 
 (println "author...\n")
 (author)
@@ -92,10 +92,10 @@
 (println)
 
 (print "PROBLEM 7:")
-(if (defined? 'run5 this)
+(if (defined? 'run7 this)
     (begin
         (println "\n\n------your tests--------------------\n")
-        (run5)
+        (run7)
         (println "\n-------my tests of your code--------\n")
         (inspect (dot-product '(1 2) '(3 4)))
         (println "    [it should be 11]")
