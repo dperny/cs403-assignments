@@ -28,11 +28,15 @@
 ; Task 1
 ;
 
+;{
+; IGNORE ME.
+; This code, while cool, is utter broken for most edge cases
 (define (range start stop step)
   (define (mod n m) (+ 1 (% (- n 1) m)))
   (define (iter store src)
     (cond 
-      ((< src start) store)
+      ((and (< 0 step) (< src start)) store)
+      ((and (> 0 step) (> src start)) store)
       (else
         (iter 
           (cons src store)
@@ -42,6 +46,22 @@
       )
     )
   (iter nil (- stop (mod (- stop start) step)))
+  )
+;}
+
+; this code works, but is recursive
+(define (range start stop step)
+  (define (help c)
+    (cond
+      ((or
+        (and (> step 0) (< c stop))
+        (and (< step 0) (> c stop)))
+          (cons c (help (+ step c)))
+        )
+      (else nil)
+      )
+    )
+  (help start)
   )
 
 (define (for-loop arglist procedure)
@@ -55,6 +75,9 @@
   )
 
 (define (run1)
+  (inspect (range 10 1 -1))
+  (inspect (range 1 10 1))
+  (inspect (range 0 0 1))
   (for-loop (range 0 5 1) (lambda (i) (print i ", ")))
   (println)
   (for-loop (range 1 13 4) (lambda (j) (print j ", ")))
@@ -84,6 +107,7 @@
 ;
 ; Task 3
 ;
+
 
 ;
 ; Task 5
@@ -125,11 +149,50 @@
   (exprTest (church2dec (cpow three two)) 9)
   )
 
+;
+; Task 7
+;
+
+(define (matrix-*-vector m v)
+  )
+
+(define (transpose m)
+  )
+
+;
+; Task 8
+;
+
+; Given a symbol set of instructions in the format
+;   'htththhththt (where h means take the head, and t means take the tail)
+; And some list or nested lists
+;
+; Returns the result of the instructions applied to the target
+(define (extract instructions target)
+  (define (distill str li)
+    (cond 
+      ((null? str) li)
+      ((equal? "h" (car str))             ; h = take the car target
+        (distill (cdr str) (car li))) ; and advance instruction string
+      ((equal? "t" (car str))
+        (distill (cdr str) (cdr li))) ; t = take the cdr of target
+      )
+    )
+  (distill (string instructions) target)
+  )
+
+(define (run8)
+  (exprTest (extract 't '(1 2 3 4)) '(2 3 4))
+  (exprTest (extract 'th '(1 2 3 4)) 2)
+  (exprTest (extract 'ht '((1) 2 3 4)) nil)
+  )
 
 (run1)
 (run2)
 
 (run5)
+
+(run8)
 
 ; Last statement!
 (println "assignment 2 loaded")
